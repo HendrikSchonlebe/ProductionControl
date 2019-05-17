@@ -11,6 +11,22 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Vertikote Factory\ProductionControl\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +47,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>039147D3C1502C23DCF47A8B6CD10A542F85D24F</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ProductionControl_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>VB617.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,14 +76,65 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="frmAddJobToBatch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="frmAddJobToBatch.Designer.cs">
+      <DependentUpon>frmAddJobToBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLabelPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLabelPrint.Designer.cs">
+      <DependentUpon>frmLabelPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProductionControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProductionControl.Designer.cs">
+      <DependentUpon>frmProductionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProductionLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProductionLine.Designer.cs">
+      <DependentUpon>frmProductionLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStartShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStartShift.Designer.cs">
+      <DependentUpon>frmStartShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSupervisor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSupervisor.Designer.cs">
+      <DependentUpon>frmSupervisor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JOBData.cs" />
+    <Compile Include="PLINEData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WOData.cs" />
+    <EmbeddedResource Include="frmAddJobToBatch.resx">
+      <DependentUpon>frmAddJobToBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLabelPrint.resx">
+      <DependentUpon>frmLabelPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProductionControl.resx">
+      <DependentUpon>frmProductionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProductionLine.resx">
+      <DependentUpon>frmProductionLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStartShift.resx">
+      <DependentUpon>frmStartShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSupervisor.resx">
+      <DependentUpon>frmSupervisor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,6 +144,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ProductionControl_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -74,6 +157,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="VB617.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

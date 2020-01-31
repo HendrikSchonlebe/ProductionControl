@@ -60,6 +60,7 @@
             this.cmbFormat.Name = "cmbFormat";
             this.cmbFormat.Size = new System.Drawing.Size(444, 28);
             this.cmbFormat.TabIndex = 1;
+            this.cmbFormat.SelectedValueChanged += new System.EventHandler(this.cmbFormat_SelectedValueChanged);
             // 
             // label2
             // 

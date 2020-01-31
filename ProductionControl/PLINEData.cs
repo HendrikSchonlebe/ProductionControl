@@ -140,6 +140,35 @@ namespace ProductionControl
 
             return isSuccessful;
         }
+        public Boolean Update_Utilisation_Start_Change(Int32 lineId, TimeSpan prevStartTime, DateTime workDay, System.Data.SqlClient.SqlTransaction trnEnvelope)
+        {
+            Boolean isSuccessful = true;
+
+            ErrorMessage = string.Empty;
+
+            try
+            {
+                String strSQL = "UPDATE ProductionLineUtilisation SET LineUtilisationLineStart = '" + UtilisationLineStarted.ToString() + "' ";
+                strSQL = strSQL + "WHERE LineUtilisationLineId = " + lineId.ToString() + " ";
+                strSQL = strSQL + "AND LineUtilisationWorkDate = Convert(datetime, '" + workDay.ToShortDateString() + " 00:00:00', 103)";
+                System.Data.SqlClient.SqlCommand cmdUpdateU = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                cmdUpdateU.ExecuteNonQuery();
+
+                strSQL = "UPDATE JobProgress SET ProgressLineStarted = CONVERT(datetime, '" + workDay.ToShortDateString() + " " + UtilisationLineStarted.ToString() + "', 103) ";
+                strSQL = strSQL + "WHERE ProgressProductionLineId = " + lineId.ToString() + " ";
+                strSQL = strSQL + "AND ProgressLineStarted = CONVERT(datetime, '" + workDay.ToShortDateString() + " " + prevStartTime.ToString() + "', 103)";
+                System.Data.SqlClient.SqlCommand cmdUpdateP = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                cmdUpdateP.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                isSuccessful = false;
+                ErrorMessage = "Update Production Line Utilisation Record Stop Time - " + ex.Message;
+            }
+
+            return isSuccessful;
+        }
         public Boolean Get_Utilisation_Record(Int32 lineId, DateTime workDay)
         {
             Boolean isSuccessful = true;

@@ -15,12 +15,14 @@ namespace ProductionControl
         private System.Data.SqlClient.SqlConnection VPSConnection;
         private String ErrorMessage = string.Empty;
         private Int32 productionLineId = 0;
+        private Boolean viewOnly = true;
+        private String labelPrinterName = string.Empty;
 
         public frmProductionControl()
         {
             InitializeComponent();
         }
-
+        
         private void frmProductionControl_Load(object sender, EventArgs e)
         {
             this.Text = "VPS Production Control Monitor - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -28,25 +30,23 @@ namespace ProductionControl
             {
                 Get_Production_Line();
 
-                // productionLineId = 2;
-
                 if (productionLineId == 0)      // Supervisor Control Panel
                 {
-                    frmSupervisor myControlPanel = new frmSupervisor();
-                    myControlPanel.Size = new Size(this.Width - 50, this.Height - 70);
-                    myControlPanel.VPSConnection = VPSConnection;
-                    myControlPanel.ShowDialog();
-                    this.Close();
+                    productionLineId = 1;
+                    //frmSupervisor myControlPanel = new frmSupervisor();
+                    //myControlPanel.Size = new Size(this.Width - 50, this.Height - 70);
+                    //myControlPanel.VPSConnection = VPSConnection;
+                    //myControlPanel.ShowDialog();
+                    //this.Close();
                 }
-                else                            // Production Line Control Panel
-                {
-                    frmProductionLine myProductionLine = new frmProductionLine();
-                    myProductionLine.Size = new Size(this.Width - 50, this.Height - 70);
-                    myProductionLine.VPSConnection = VPSConnection;
-                    myProductionLine.productionLineId = productionLineId;
-                    myProductionLine.ShowDialog();
-                    this.Close();
-                }
+                frmProductionLine myProductionLine = new frmProductionLine();
+                myProductionLine.Size = new Size(this.Width - 50, this.Height - 70);
+                myProductionLine.VPSConnection = VPSConnection;
+                myProductionLine.productionLineId = productionLineId;
+                myProductionLine.viewOnly = viewOnly;
+                myProductionLine.labelPrinterName = labelPrinterName;
+                myProductionLine.ShowDialog();
+                this.Close();
             }
             else
             {
@@ -72,9 +72,9 @@ namespace ProductionControl
             SQLServer = "LAPTOP-GFF0PAR9\\SQLEXPRESS";
             SQLUserName = "sa";
             SQLPassword = "s3(r3!";
-            //SQLServer = "VKC-SQL-01";
-            //SQLUserName = "vpsuser";
-            //SQLPassword = "vpsuser";
+            SQLServer = "VKC-SQL-01";
+            SQLUserName = "vpsuser";
+            SQLPassword = "vpsuser";
 
             try
             {
@@ -93,11 +93,22 @@ namespace ProductionControl
         private void Get_Production_Line()
         {
             productionLineId = 0;
+            viewOnly = true;
 
             if (System.IO.File.Exists("C:\\vps\\ProductionLine.ini"))
             {
-                string text = System.IO.File.ReadAllText("C:\\vps\\ProductionLine.ini");
-                productionLineId = Convert.ToInt32(text);
+                String text = System.IO.File.ReadAllText("C:\\vps\\ProductionLine.ini");
+                String[] myParams = text.Split(','); 
+                productionLineId = Convert.ToInt32(myParams[0].Trim());
+                if (myParams.Length > 1)
+                {
+                    if (myParams[1].Trim() == "P")
+                        viewOnly = false;
+                }
+                if (myParams.Length > 2)
+                {
+                    labelPrinterName = myParams[2].Trim();
+                }
             }
         }
 

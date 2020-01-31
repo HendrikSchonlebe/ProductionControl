@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,8 +13,18 @@ namespace ProductionControl
 {
     public partial class frmProductionLine : Form
     {
+        //public const int WM_NCLBUTTONDOWN = 0xA1;
+        //public const int HT_CAPTION = 0x2;
+
+        //[DllImportAttribute("user32.dll")]
+        //public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        //[DllImportAttribute("user32.dll")]
+        //public static extern bool ReleaseCapture();
+
         public System.Data.SqlClient.SqlConnection VPSConnection;
         public Int32 productionLineId;
+        public Boolean viewOnly;
+        public String labelPrinterName;
 
         private String ErrorMessage = string.Empty;
 
@@ -22,6 +33,12 @@ namespace ProductionControl
         private JOBData myJOBData = new JOBData();
         private WOData myWOData = new WOData();
         private String lineStatus = "00";
+        private DateTime currentStart = DateTime.Now;
+        private String SourceEmailAddress = string.Empty;
+        private String CustomerServicesEmailAddress = string.Empty;
+        private String ProductionEmailAddress = string.Empty;
+        private String SMTPHostName = string.Empty;
+        private Int32 SMTPPort = 25;
 
         public frmProductionLine()
         {
@@ -30,9 +47,13 @@ namespace ProductionControl
 
         private void frmProductionLine_Load(object sender, EventArgs e)
         {
+            this.Text = "VPS Production Line Control Monitor - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             myPLine.myVPSConnection = VPSConnection;
             myJOBData.myVPSConnection = VPSConnection;
             myWOData.myVPSConnection = VPSConnection;
+
+            Get_Control_Data();
 
             cmbProductionLine.Items.Clear();
             cmbProductionLine.Items.Add("1 - Aluminium Line");
@@ -44,87 +65,272 @@ namespace ProductionControl
             if (myPLine.Get_Production_Line(productionLineId) == true)
             {
                 lblProductionLine.Text = myPLine.ProductionLineName;
+                for (int i = 0; i < cmbProductionLine.Items.Count; i++)
+                {
+                    if (cmbProductionLine.Items[i].ToString().Substring(0,1) == productionLineId.ToString().Trim())
+                    {
+                        cmbProductionLine.Text = cmbProductionLine.Items[i].ToString();
+                        break;
+                    }
+                }
                 isLoaded = true;
-                if (Refresh_Production_Line_Start_Finish() == true)
-                    Refresh_Jobs_Grid();
+                myTimer.Enabled = true;
+                if (viewOnly == false)
+                {
+                    myTimer.Interval = 300000;
+                    btnRefresh.Visible = true;
+                    if (Refresh_Production_Line_Start_Finish(true) == true)
+                    {
+                        currentStart = dtpStarted.Value;
+                        if (pnlTasks.Visible == false)
+                            Refresh_Jobs_Grid();
+                    }
+                    else
+                        this.Close();
+                }
                 else
-                    this.Close();
+                {
+                    myTimer.Interval = 60000;
+                    btnRefresh.Visible = false;
+                    Refresh_Production_Line_Start_Finish(false);
+                    dtpStarted.Enabled = false;
+                    dtpStopped.Enabled = false;
+                    Refresh_Jobs_Grid();
+                }
+                btnLoad.Visible = !viewOnly;
+                btnAdd.Visible = !viewOnly;
+                btnRemove.Visible = !viewOnly;
             }
             else
             {
                 MessageBox.Show(myPLine.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
+            
+        }
+        private Boolean Get_Control_Data()
+        {
+            Boolean isSuccessful = true;
+
+            try
+            {
+                String strSQL = "SELECT * FROM SystemDefaults";
+                System.Data.SqlClient.SqlCommand cmdGet = new System.Data.SqlClient.SqlCommand(strSQL, VPSConnection);
+                System.Data.SqlClient.SqlDataReader rdrGet = cmdGet.ExecuteReader();
+                if (rdrGet.HasRows == true)
+                {
+                    DataTable myControl = new DataTable();
+                    myControl.Load(rdrGet);
+
+                    SourceEmailAddress = myControl.Rows[0]["SourceEmailAddress"].ToString();
+                    ProductionEmailAddress = myControl.Rows[0]["productionEmailAddress"].ToString();
+                    CustomerServicesEmailAddress = myControl.Rows[0]["customerServiceEmailAddress"].ToString();
+                    SMTPHostName = myControl.Rows[0]["SMTPServer"].ToString();
+                    SMTPPort = Convert.ToInt32(myControl.Rows[0]["SMTPPort"]);
+
+                }
+                rdrGet.Close();
+                cmdGet.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return isSuccessful;
         }
         private void frmProductionLine_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
-                btnExit_Click(sender, e);
-            else if ((e.KeyCode == Keys.F1) & (btnStartL.Visible == true) & (btnStartL.Enabled == true))
-                btnStartL_Click(sender, e);
-            else if ((e.KeyCode == Keys.F2) & (btnEndL.Visible == true) & (btnEndL.Enabled == true))
-                btnEndL_Click(sender, e);
-            else if ((e.KeyCode == Keys.F3) & (btnStartU.Visible == true) & (btnStartU.Enabled == true))
-                btnStartU_Click(sender, e);
-            else if ((e.KeyCode == Keys.F4) & (btnEndU.Visible == true) & (btnEndU.Enabled == true))
-                btnEndU_Click(sender, e);
-            else if ((e.KeyCode == Keys.F5) & (btnPrint.Visible == true) & (btnPrint.Enabled == true))
-                btnPrint_Click(sender, e);
-            else if ((e.KeyCode == Keys.F6) & (btnPacked.Visible == true) & (btnPacked.Enabled == true))
-                btnPacked_Click(sender, e);
-            else if ((e.KeyCode == Keys.F7) & (btnCancel.Visible == true) & (btnCancel.Enabled == true))
-                btnCancel_Click(sender, e);
-            else if (e.KeyCode == Keys.F1)
-                btnLoad_Click(sender, e);
-            else if (e.KeyCode == Keys.F2)
-                btnAdd_Click(sender, e);
-            else if ((e.KeyCode == Keys.F3) & (btnRemove.Visible == true))
-                btnRemove_Click(sender, e);
+            if (viewOnly == false)
+            {
+                if (e.KeyCode == Keys.Escape)
+                    btnExit_Click(sender, e);
+                else if ((e.KeyCode == Keys.F1) & (btnStartL.Visible == true) & (btnStartL.Enabled == true))
+                    btnStartL_Click(sender, e);
+                else if ((e.KeyCode == Keys.F2) & (btnEndL.Visible == true) & (btnEndL.Enabled == true))
+                    btnEndL_Click(sender, e);
+                else if ((e.KeyCode == Keys.F3) & (btnStartU.Visible == true) & (btnStartU.Enabled == true))
+                    btnStartU_Click(sender, e);
+                else if ((e.KeyCode == Keys.F4) & (btnEndU.Visible == true) & (btnEndU.Enabled == true))
+                    btnEndU_Click(sender, e);
+                else if ((e.KeyCode == Keys.F5) & (btnPrint.Visible == true) & (btnPrint.Enabled == true))
+                    btnPrint_Click(sender, e);
+                else if ((e.KeyCode == Keys.F6) & (btnPacked.Visible == true) & (btnPacked.Enabled == true))
+                    btnPacked_Click(sender, e);
+                else if ((e.KeyCode == Keys.F7) & (btnCancel.Visible == true) & (btnCancel.Enabled == true))
+                    btnCancel_Click(sender, e);
+                else if (e.KeyCode == Keys.F1)
+                    btnLoad_Click(sender, e);
+                else if (e.KeyCode == Keys.F2)
+                    btnAdd_Click(sender, e);
+                else if ((e.KeyCode == Keys.F3) & (btnRemove.Visible == true))
+                    btnRemove_Click(sender, e);
+                else if ((e.KeyCode == Keys.F4) & (btnEndU.Visible == false))
+                    btnRefresh_Click(sender, e);
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Escape)
+                    btnExit_Click(sender, e);
+            }
         }
-
+        private void dgJobs_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (dgJobs.Rows[e.RowIndex].Cells["PaintSystem"].Value.ToString().Contains("(") == true)
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+                    e.CellStyle.Font = new Font(e.CellStyle.Font, FontStyle.Bold);
+                }
+            }
+        }
         private void dgJobs_KeyDown(object sender, KeyEventArgs e)
         {
-            if (dgJobs.CurrentRow != null)
+            if (viewOnly == false)
             {
-                if (dgJobs.CurrentRow.Index >= 0)
+                if (dgJobs.CurrentRow != null)
                 {
-                    if (e.KeyCode == Keys.Tab)
-                        Show_Tasks_Panel();
-                    else if (e.KeyCode == Keys.Insert)
-                        btnAdd_Click(sender, e);
-                    else if ((e.KeyCode == Keys.Delete) & (btnRemove.Visible == true))
-                        btnRemove_Click(sender, e);
+                    if (dgJobs.CurrentRow.Index >= 0)
+                    {
+                        if (e.KeyCode == Keys.Tab)
+                            Show_Tasks_Panel();
+                        else if (e.KeyCode == Keys.Insert)
+                            btnAdd_Click(sender, e);
+                        else if ((e.KeyCode == Keys.Delete) & (btnRemove.Visible == true))
+                            btnRemove_Click(sender, e);
+                    }
+                }
+            }
+        }
+        private void dgJobs_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    // Display Parts on this Job
+                    if (myJOBData.Get_Job(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), productionLineId) == true)
+                    {
+                        if (myJOBData.Get_Job_Details(myJOBData.JobId) == true)
+                        {
+                            dgParts.Rows.Clear();
+                            for (int i = 0; i < myJOBData.myJobDetails.Rows.Count; i++)
+                            {
+                                String[] thisPart = myJOBData.myJobDetails.Rows[i]["PartDescription"].ToString().Split('*');
+                                String pictureButton = string.Empty;
+                                if (string.IsNullOrEmpty(myJOBData.myJobDetails.Rows[i]["PartPicture"].ToString()) == false)
+                                    pictureButton = "<View Part>";
+                                dgParts.Rows.Add(myJOBData.myJobDetails.Rows[i]["PartCode"].ToString(), thisPart[0].Trim(), Convert.ToInt32(myJOBData.myJobDetails.Rows[i]["Qty"]), pictureButton);
+                            }
+                            pnlParts.Visible = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
         private void dgJobs_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (viewOnly == false)
             {
-                if (dgJobs.CurrentRow.Index >= 0)
+                if (e.RowIndex >= 0)
                 {
-                    Show_Tasks_Panel();
+                    if (dgJobs.CurrentRow.Index >= 0)
+                    {
+                        Show_Tasks_Panel();
+                    }
+                }
+            }
+            else
+            {
+                if (Convert.ToBoolean(dgJobs.CurrentRow.Cells["Packed"].Value) == true)
+                {
+                    if (MessageBox.Show("Has Paperwork been received and checked ?\r\n\r\nHas Job production been completed ?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
+                        System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
+
+                        if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, 7, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
+                        {
+                            trnEnvelope.Commit();
+                            dgJobs.Rows.Remove(dgJobs.CurrentRow);
+                        }
+                        else
+                        {
+                            trnEnvelope.Rollback();
+                            MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
         }
         private void dgJobs_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgJobs.CurrentRow != null)
+            if (viewOnly == false)
             {
-                if (dgJobs.CurrentRow.Index >= 0)
+                if (dgJobs.CurrentRow != null)
                 {
-                    if (dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value.ToString() != "")
+                    if (dgJobs.CurrentRow.Index >= 0)
                     {
-                        btnRemove.Visible = false;
-                    }
-                    else
-                    {
-                        btnRemove.Visible = true;
+                        if (dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value.ToString() != "")
+                        {
+                            btnRemove.Visible = false;
+                        }
+                        else
+                        {
+                            btnRemove.Visible = true;
+                        }
                     }
                 }
             }
         }
 
+        private Boolean Multi_Coat_Sequence(String jobNumber, Int32 coatNumber)
+        {
+            Boolean isOk = true;
+
+            if (coatNumber > 1)
+            {
+                if (myJOBData.Get_Job(jobNumber, productionLineId) == true)
+                {
+                    DataTable myRecord = new DataTable();
+                    String strSQL = "SELECT * FROM JobProgress WHERE ProgressJobId = " + myJOBData.JobId.ToString() + " AND ProgressThisCoat = " + (coatNumber - 1).ToString();
+                    System.Data.SqlClient.SqlCommand cmdGet = new System.Data.SqlClient.SqlCommand(strSQL, myJOBData.myVPSConnection);
+                    System.Data.SqlClient.SqlDataReader rdrGet = cmdGet.ExecuteReader();
+                    if (rdrGet.HasRows == true)
+                    {
+                        myRecord.Load(rdrGet);
+                        if (string.IsNullOrEmpty(myRecord.Rows[0]["ProgressUnloadEnd"].ToString()) == true)
+                        {
+                            isOk = false;
+                            MessageBox.Show("Job : " + jobNumber + " Previous Coat Processing has not been completed !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                    }
+                    else
+                    {
+                        isOk = false;
+                        MessageBox.Show("Job : " + jobNumber + " Progress Record not found !\r\n\r\nMulti Coat Job - Step is out of Sequence !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    rdrGet.Close();
+                    cmdGet.Dispose();
+                }
+                else
+                {
+                    isOk = false;
+                    MessageBox.Show("Job : " + jobNumber + " not found !\r\n\r\nMulti Coat Job - Step is out of Sequence !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            return isOk;
+        }
         private void Show_Tasks_Panel()
         {
             Boolean loadStarted = false;
@@ -132,88 +338,108 @@ namespace ProductionControl
             Boolean unloadStarted = false;
             Boolean unloadFinished = false;
             Boolean jobPacked = false;
+            Boolean canContinue = true;
 
-            if (dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value.ToString() != "")
-                loadStarted = true;
-            if (dgJobs.CurrentRow.Cells["FinishLoading"].Value.ToString() != "")
-                loadFinished = true;
-            if (dgJobs.CurrentRow.Cells["StartUnloading"].Value.ToString() != "")
-                unloadStarted = true;
-            if (dgJobs.CurrentRow.Cells["EndUnloading"].Value.ToString() != "")
-                unloadFinished = true;
-            jobPacked = Convert.ToBoolean(dgJobs.CurrentRow.Cells["Packed"].Value);
-
-            if (loadStarted == false)
+            // Test for Multi Coat Job
+            if (Convert.ToInt32(dgJobs.CurrentRow.Cells["Coats"].Value) > 1)
             {
-                if (lineStatus.Substring(0, 1) == "1")
+                canContinue = Multi_Coat_Sequence(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), Convert.ToInt32(dgJobs.CurrentRow.Cells["ThisCoat"].Value));
+            }
+
+            if (canContinue == true)
+            {
+                if (dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value.ToString() != "")
+                    loadStarted = true;
+                if (dgJobs.CurrentRow.Cells["FinishLoading"].Value.ToString() != "")
+                    loadFinished = true;
+                if (dgJobs.CurrentRow.Cells["StartUnloading"].Value.ToString() != "")
+                    unloadStarted = true;
+                if (dgJobs.CurrentRow.Cells["EndUnloading"].Value.ToString() != "")
+                    unloadFinished = true;
+                jobPacked = Convert.ToBoolean(dgJobs.CurrentRow.Cells["Packed"].Value);
+
+                if (loadStarted == false)
                 {
-                    MessageBox.Show("Another Job is still being loaded !");
+                    if (lineStatus.Substring(0, 1) == "1")
+                    {
+                        MessageBox.Show("Another Job is still being loaded !");
+                    }
+                    else
+                    {
+                        btnStartL.Text = "F1-Started Loading";
+                        btnStartL.Visible = true;
+                        btnEndL.Visible = false;
+                        btnStartU.Visible = false;
+                        btnEndU.Visible = false;
+                        btnPrint.Visible = false;
+                        btnPacked.Visible = false;
+                        pnlTasks.Visible = true;
+                    }
                 }
-                else
+                if ((loadStarted == true) & (loadFinished == false))
                 {
-                    btnStartL.Text = "F1-Started Loading";
+                    btnStartL.Text = "F1-Cancel Loading";
                     btnStartL.Visible = true;
-                    btnEndL.Visible = false;
+                    btnEndL.Visible = true;
                     btnStartU.Visible = false;
                     btnEndU.Visible = false;
                     btnPrint.Visible = false;
                     btnPacked.Visible = false;
                     pnlTasks.Visible = true;
                 }
-            }
-            if ((loadStarted == true) & (loadFinished == false))
-            {
-                btnStartL.Text = "F1-Cancel Loading";
-                btnStartL.Visible = true;
-                btnEndL.Visible = true;
-                btnStartU.Visible = false;
-                btnEndU.Visible = false;
-                btnPrint.Visible = false;
-                btnPacked.Visible = false;
-                pnlTasks.Visible = true;
-            }
-            if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == false))
-            {
-                if (lineStatus.Substring(1, 1) == "1")
+                if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == false))
                 {
-                    MessageBox.Show("Another Job is still being unloaded !");
+                    if (lineStatus.Substring(1, 1) == "1")
+                    {
+                        MessageBox.Show("Another Job is still being unloaded !");
+                    }
+                    else
+                    {
+                        btnStartL.Visible = false;
+                        btnEndL.Visible = false;
+                        btnStartU.Text = "F3-Started Unloading";
+                        btnStartU.Visible = true;
+                        btnEndU.Visible = false;
+                        btnPrint.Visible = false;
+                        btnPacked.Visible = false;
+                        pnlTasks.Visible = true;
+                    }
                 }
-                else
+                if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == true) & (unloadFinished == false))
                 {
                     btnStartL.Visible = false;
                     btnEndL.Visible = false;
-                    btnStartU.Text = "F3-Started Unloading";
+                    btnStartU.Text = "F3-Cancel Unloading";
                     btnStartU.Visible = true;
+                    btnEndU.Visible = true;
+                    btnPrint.Visible = true;
+                    btnPacked.Visible = false;
+                    pnlTasks.Visible = true;
+                }
+                if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == true) & (unloadFinished == true))
+                {
+                    btnStartL.Visible = false;
+                    btnEndL.Visible = false;
+                    btnStartU.Visible = false;
                     btnEndU.Visible = false;
-                    btnPrint.Visible = false;
+                    btnPrint.Visible = true;
+                    btnPacked.Visible = true;
+                    pnlTasks.Visible = true;
+                }
+                if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == true) & (unloadFinished == true) & (jobPacked == true))
+                {
+                    btnStartL.Visible = false;
+                    btnEndL.Visible = false;
+                    btnStartU.Visible = false;
+                    btnEndU.Visible = false;
+                    btnPrint.Visible = true;
                     btnPacked.Visible = false;
                     pnlTasks.Visible = true;
                 }
             }
-            if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == true) & (unloadFinished == false))
-            {
-                btnStartL.Visible = false;
-                btnEndL.Visible = false;
-                btnStartU.Text = "F3-Cancel Unloading";
-                btnStartU.Visible = true;
-                btnEndU.Visible = true;
-                btnPrint.Visible = false;
-                btnPacked.Visible = false;
-                pnlTasks.Visible = true;
-            }
-            if ((loadStarted == true) & (loadFinished == true) & (unloadStarted == true) & (unloadFinished == true))
-            {
-                btnStartL.Visible = false;
-                btnEndL.Visible = false;
-                btnStartU.Visible = false;
-                btnEndU.Visible = false;
-                btnPrint.Visible = true;
-                btnPacked.Visible = true;
-                pnlTasks.Visible = true;
-            }
         }
 
-        private Boolean Refresh_Production_Line_Start_Finish()
+        private Boolean Refresh_Production_Line_Start_Finish(Boolean setDateTime)
         {
             Boolean isSuccessful = true;
 
@@ -224,19 +450,22 @@ namespace ProductionControl
             }
             else
             {
-                frmStartShift startShift = new frmStartShift();
-                startShift.VPSConnection = VPSConnection;
-                startShift.productionLineId = productionLineId;
-                if (startShift.ShowDialog() == DialogResult.Yes)
+                if (setDateTime == true)
                 {
-                    startShift.Close();
-                    Refresh_Production_Line_Start_Finish();
-                }
-                else
-                {
-                    isSuccessful = false;
-                    startShift.Close();
-                    this.Close();
+                    frmStartShift startShift = new frmStartShift();
+                    startShift.VPSConnection = VPSConnection;
+                    startShift.productionLineId = productionLineId;
+                    if (startShift.ShowDialog() == DialogResult.Yes)
+                    {
+                        startShift.Close();
+                        Refresh_Production_Line_Start_Finish(setDateTime);
+                    }
+                    else
+                    {
+                        isSuccessful = false;
+                        startShift.Close();
+                        this.Close();
+                    }
                 }
             }
 
@@ -245,7 +474,12 @@ namespace ProductionControl
 
         private void Refresh_Jobs_Grid()
         {
-            double jobTotalArea = 0;
+            Double jobTotalAreaPP = 0;
+            Double jobTotalAreaAP = 0;
+            String multiCoat = string.Empty;
+            String ColourName = string.Empty;
+            String PaintProduct = string.Empty;
+            Int32 jobEstTime = 0;
 
             if (myJOBData.Get_Unfinished_Jobs(productionLineId) == true)
             {
@@ -261,22 +495,62 @@ namespace ProductionControl
                         if ((myJOBData.myJobsInProgress.Rows[i]["ProgressUnloadStart"].ToString() != "") & (myJOBData.myJobsInProgress.Rows[i]["ProgressUnloadEnd"].ToString() == ""))
                             lineStatus = lineStatus.Substring(0, 1) + "1";
 
-                        jobTotalArea = myJOBData.Get_Job_Area(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["JobId"]));
+                        jobTotalAreaPP = myJOBData.Get_Job_Area(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["JobId"]), "PP");
+                        jobTotalAreaAP = myJOBData.Get_Job_Area(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["JobId"]), "AP");
+                        jobEstTime = myJOBData.Job_Estimated_Time(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["JobId"]));
+
+                        if (Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressCoats"]) > 1)
+                        {
+                            multiCoat = "(" + Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressThisCoat"]).ToString() + ")";
+                            if (Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressThisCoat"]) == Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressCoats"]))
+                            {
+                                PaintProduct = myJOBData.myJobsInProgress.Rows[i]["SupplierProductGroupCode"].ToString() + " / " + myJOBData.myJobsInProgress.Rows[i]["SupplierPaintProductCode"].ToString();
+                                ColourName = myJOBData.myJobsInProgress.Rows[i]["ColorName"].ToString();
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    String primerRecord = myJOBData.MultiCoat_PaintProduct(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressThisCoat"]), Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["WorkOrderId"]));
+                                    String[] paintUsed = primerRecord.Split(',');
+                                    PaintProduct = paintUsed[0] + " / " + paintUsed[1];
+                                    ColourName = paintUsed[2];
+                                }
+                                catch(Exception ex)
+                                {
+                                    ColourName = "Primer ?";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            PaintProduct = myJOBData.myJobsInProgress.Rows[i]["SupplierProductGroupCode"].ToString() + " / " + myJOBData.myJobsInProgress.Rows[i]["SupplierPaintProductCode"].ToString();
+                            ColourName = myJOBData.myJobsInProgress.Rows[i]["ColorName"].ToString();
+                            multiCoat = string.Empty;
+                        }
+
+                        String myCustomerName = string.Empty;
+                        if (myWOData.Get_WorkOrder(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["WorkOrderId"])) == true)
+                            myCustomerName = myWOData.CustomerName;
 
                         dgJobs.Rows.Add(Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressId"]),
                             Convert.ToDateTime(myJOBData.myJobsInProgress.Rows[i]["ScheduleDate"]),
                             myJOBData.myJobsInProgress.Rows[i]["JobNumber"].ToString(),
-                            myJOBData.myJobsInProgress.Rows[i]["CustomerName"].ToString(),
+                            myCustomerName,
                             myJOBData.myJobsInProgress.Rows[i]["WorkOrderNo"].ToString(),
-                            myJOBData.myJobsInProgress.Rows[i]["SupplierProductGroupCode"].ToString() + " / " + myJOBData.myJobsInProgress.Rows[i]["SupplierPaintProductCode"].ToString(),
-                            myJOBData.myJobsInProgress.Rows[i]["ColorName"].ToString(),
-                            myJOBData.myJobsInProgress.Rows[i]["PaintSystemCode"].ToString(),
-                            jobTotalArea, 
+                            PaintProduct,
+                            ColourName,
+                            myJOBData.myJobsInProgress.Rows[i]["PaintSystemCode"].ToString() + multiCoat,
+                            jobTotalAreaAP, 
+                            jobTotalAreaPP,
+                            jobEstTime,
                             myJOBData.myJobsInProgress.Rows[i]["ProgressLoadStart"].ToString(),
                             myJOBData.myJobsInProgress.Rows[i]["ProgressLoadEnd"].ToString(),
                             myJOBData.myJobsInProgress.Rows[i]["ProgressUnloadStart"].ToString(),
                             myJOBData.myJobsInProgress.Rows[i]["ProgressUnloadEnd"].ToString(),
-                            Convert.ToBoolean(myJOBData.myJobsInProgress.Rows[i]["ProgressPacked"])
+                            Convert.ToBoolean(myJOBData.myJobsInProgress.Rows[i]["ProgressPacked"]),
+                            Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressCoats"]),
+                            Convert.ToInt32(myJOBData.myJobsInProgress.Rows[i]["ProgressThisCoat"])
                             );
                     }
                 }
@@ -293,6 +567,49 @@ namespace ProductionControl
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            // Multi Coat Jobs
+            Add_Multicoat_Batch(false);
+            // Single Coat Jobs
+            Add_Singlecoat_Batch(false);
+
+            Refresh_Jobs_Grid();
+        }
+        private void Add_Multicoat_Batch(Boolean isAuto)
+        {
+            if (myJOBData.Get_Scheduled_MultiCoat_Jobs(productionLineId, DateTime.Now.AddDays(3)) == true)
+            {
+                Int32 multiCoatCount = 1;
+
+                for (int i = 0; i < myJOBData.myScheduledJobs.Rows.Count; i++)
+                {
+                    Boolean isOk = true;
+
+                    System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
+
+                    myJOBData.ProgressCoats = Convert.ToInt32(myJOBData.myScheduledJobs.Rows[i]["process_coats"]);
+
+                    if (myJOBData.ProgressCoats > 1)
+                        multiCoatCount = myJOBData.Get_MultiCoat_Progress_Records(Convert.ToInt32(myJOBData.myScheduledJobs.Rows[i]["JobId"]), trnEnvelope) + 1;
+
+                    for (int j = multiCoatCount; j <= myJOBData.ProgressCoats; j++)
+                    {
+                        myJOBData.ProgressThisCoat = j;
+                        if (myJOBData.Insert_Progress_Record(Convert.ToInt32(myJOBData.myScheduledJobs.Rows[i]["JobId"]), productionLineId, trnEnvelope) == false)
+                        {
+                            isOk = false;
+                            trnEnvelope.Rollback();
+                            if (isAuto == false)
+                                MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    if (isOk == true)
+                        trnEnvelope.Commit();
+                }
+            }
+        }
+        private void Add_Singlecoat_Batch(Boolean isAuto)
+        {
             if (myJOBData.Get_Scheduled_Jobs(productionLineId, DateTime.Now.AddDays(3)) == true)
             {
                 if (myJOBData.myScheduledJobs.Rows.Count > 0)
@@ -300,23 +617,27 @@ namespace ProductionControl
                     for (int i = 0; i < myJOBData.myScheduledJobs.Rows.Count; i++)
                     {
                         System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
-                        if (myJOBData.Insert_Progress_Record(Convert.ToInt32(myJOBData.myScheduledJobs.Rows[i]["JobId"]), productionLineId, trnEnvelope) == true)
-                            trnEnvelope.Commit();
-                        else
+
+                        myJOBData.ProgressCoats = 1;
+                        myJOBData.ProgressThisCoat = 1;
+                        if (myJOBData.Insert_Progress_Record(Convert.ToInt32(myJOBData.myScheduledJobs.Rows[i]["JobId"]), productionLineId, trnEnvelope) == false)
                         {
                             trnEnvelope.Rollback();
-                            MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (isAuto == false)
+                                MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
                         }
+
+                        trnEnvelope.Commit();
                     }
-                    Refresh_Jobs_Grid();
                 }
             }
             else
             {
-                MessageBox.Show(myPLine.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (isAuto == false)
+                    MessageBox.Show(myPLine.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             frmAddJobToBatch AddJob = new frmAddJobToBatch();
@@ -348,6 +669,10 @@ namespace ProductionControl
                 }
             }
         }
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            Refresh_Jobs_Grid();
+        }
 
         // ******** Task Buttons
         private void btnStartL_Click(object sender, EventArgs e)
@@ -362,7 +687,9 @@ namespace ProductionControl
                         if (myWOData.Update_Work_Order_Status(dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString(), "InProgress", trnEnvelope) == true)
                         {
                             trnEnvelope.Commit();
-                            Refresh_Jobs_Grid();
+                            // Refresh_Jobs_Grid();
+                            dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value = DateTime.Now;
+                            lineStatus = "1" + lineStatus.Substring(1, 1);
                         }
                         else
                         {
@@ -393,7 +720,9 @@ namespace ProductionControl
                             if (myWOData.Update_Work_Order_Status(dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString(), "Open", trnEnvelope) == true)
                             {
                                 trnEnvelope.Commit();
-                                Refresh_Jobs_Grid();
+                                // Refresh_Jobs_Grid();
+                                dgJobs.CurrentRow.Cells["ProgressLoadStart"].Value = "";
+                                lineStatus = "0" + lineStatus.Substring(1, 1);
                             }
                             else
                             {
@@ -423,7 +752,9 @@ namespace ProductionControl
             if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, 2, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
             {
                 trnEnvelope.Commit();
-                Refresh_Jobs_Grid();
+                // Refresh_Jobs_Grid();
+                dgJobs.CurrentRow.Cells["FinishLoading"].Value = DateTime.Now;
+                lineStatus = "0" + lineStatus.Substring(1, 1);
             }
             else
             {
@@ -442,7 +773,9 @@ namespace ProductionControl
                 if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, 3, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
                 {
                     trnEnvelope.Commit();
-                    Refresh_Jobs_Grid();
+                    // Refresh_Jobs_Grid();
+                    dgJobs.CurrentRow.Cells["StartUnloading"].Value = DateTime.Now;
+                    lineStatus = lineStatus.Substring(0, 1) + "1";
                 }
                 else
                 {
@@ -457,7 +790,9 @@ namespace ProductionControl
                     if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, -3, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
                     {
                         trnEnvelope.Commit();
-                        Refresh_Jobs_Grid();
+                        // Refresh_Jobs_Grid();
+                        dgJobs.CurrentRow.Cells["StartUnloading"].Value = "";
+                        lineStatus = lineStatus.Substring(0, 1) + "0";
                     }
                     else
                     {
@@ -471,11 +806,36 @@ namespace ProductionControl
         }
         private void btnEndU_Click(object sender, EventArgs e)
         {
+            Int32 progressUpdateCode = 4;
+
             System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
-            if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, 4, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
+
+            // Test if this is a multi coat primer
+            if (Convert.ToInt32(dgJobs.CurrentRow.Cells["ThisCoat"].Value) < Convert.ToInt32(dgJobs.CurrentRow.Cells["Coats"].Value))
+                progressUpdateCode = 6;
+
+            if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, progressUpdateCode, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
             {
-                trnEnvelope.Commit();
-                Refresh_Jobs_Grid();
+                if (progressUpdateCode == 4)
+                {
+                    if (myJOBData.Update_Job_Status(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), "Processed", DateTime.Now, trnEnvelope) == true)
+                    {
+                        trnEnvelope.Commit();
+                        // Refresh_Jobs_Grid();
+                        dgJobs.CurrentRow.Cells["EndUnloading"].Value = DateTime.Now;
+                        lineStatus = lineStatus.Substring(0, 1) + "0";
+                    }
+                    else
+                    {
+                        trnEnvelope.Rollback();
+                        MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    trnEnvelope.Commit();
+                    Refresh_Jobs_Grid();
+                }
             }
             else
             {
@@ -487,37 +847,64 @@ namespace ProductionControl
         }
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            frmLabelPrint PrintLabels = new frmLabelPrint();
-            PrintLabels.customerName = dgJobs.CurrentRow.Cells["Customer"].Value.ToString();
-            PrintLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
-            PrintLabels.jobNumber = dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
-            PrintLabels.colourName = dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
-            PrintLabels.ShowDialog();
-            pnlTasks.Visible = false;
+            if (myJOBData.Get_Job(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), productionLineId) == true)
+            {
+                String[] thisCustomer = dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Split('-');
+                frmLabelPrint PrintLabels = new frmLabelPrint();
+                PrintLabels.customerName = thisCustomer[0].Trim();
+                PrintLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
+                PrintLabels.jobNumber = dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
+                PrintLabels.colourName = dgJobs.CurrentRow.Cells["Product"].Value.ToString() + " " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
+                PrintLabels.customerOrder = myJOBData.CustomerOrder;
+                PrintLabels.labelPrinterName = labelPrinterName;
+                PrintLabels.ShowDialog();
+                pnlTasks.Visible = false;
+            }
+            else
+            {
+                MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btnPacked_Click(object sender, EventArgs e)
         {
+            btnPacked.Visible = false;
+            this.Cursor = Cursors.WaitCursor;
             System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
             if (myJOBData.Update_Progress_Record(Convert.ToInt32(dgJobs.CurrentRow.Cells[0].Value), DateTime.Now, 5, trnEnvelope, dtpStarted.Value, dtpStopped.Value) == true)
             {
-                if (myJOBData.Update_Job_Status(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), "Processed", DateTime.Now, trnEnvelope) == true)
-                {
-                    trnEnvelope.Commit();
-                    Refresh_Jobs_Grid();
-                }
-                else
-                {
-                    trnEnvelope.Rollback();
-                    MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                trnEnvelope.Commit();
+                Refresh_Jobs_Grid();
+                Email_Office();
+                this.Cursor = Cursors.Default;
             }
             else
             {
                 trnEnvelope.Rollback();
+                this.Cursor = Cursors.Default;
                 MessageBox.Show(myJOBData.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            btnPacked.Visible = true;
             pnlTasks.Visible = false;
+        }
+        private void Email_Office()
+        {
+            if ((CustomerServicesEmailAddress.Trim().Length > 0) & (SMTPHostName.Trim().Length > 0) & (SMTPPort > 0) & (SourceEmailAddress.Trim().Length > 0))
+            {
+                SMTPMailer myMailer = new SMTPMailer();
+
+                myMailer.EmailTo.Add(CustomerServicesEmailAddress);
+                myMailer.EmailSubject = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString().Trim() + " - " + dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Trim() + " - " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString().Trim() + " - " + dgJobs.CurrentRow.Cells["Product"].Value.ToString().Trim() + " - " + cmbProductionLine.Text.Trim() + " - Is Finished, Packed & Ready !";
+                myMailer.SMTPHost = SMTPHostName;
+                myMailer.SMTPPort = SMTPPort;
+                myMailer.EmailFrom = ProductionEmailAddress;
+                myMailer.EmailBodyText = "";
+                myMailer.Send_Email_Message(false);
+            }
+            else
+            {
+                MessageBox.Show("Mailer Parameters not Set !\r\nCannot send Email Notifications !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -533,7 +920,11 @@ namespace ProductionControl
                 if (myPLine.Get_Production_Line(productionLineId) == true)
                 {
                     lblProductionLine.Text = myPLine.ProductionLineName;
-                    Refresh_Production_Line_Start_Finish();
+                    if (viewOnly == false)
+                        Refresh_Production_Line_Start_Finish(true);
+                    else
+                        Refresh_Production_Line_Start_Finish(false);
+
                     Refresh_Jobs_Grid();
                 }
                 else
@@ -555,6 +946,77 @@ namespace ProductionControl
             else
             {
                 trnEnvelope.Rollback();
+            }
+        }
+        private void dtpStarted_ValueChanged(object sender, EventArgs e)
+        {
+            TimeSpan prevStartTime = currentStart.TimeOfDay;
+
+            myPLine.UtilisationLineStarted = dtpStarted.Value.TimeOfDay;
+            myPLine.UtilisationLineStopped = dtpStopped.Value.TimeOfDay;
+
+            System.Data.SqlClient.SqlTransaction trnEnvelope = VPSConnection.BeginTransaction();
+
+            if (myPLine.Update_Utilisation_Start_Change(productionLineId, prevStartTime, DateTime.Now, trnEnvelope) == true)
+            {
+                currentStart = dtpStarted.Value;
+                trnEnvelope.Commit();
+            }
+            else
+            {
+                trnEnvelope.Rollback();
+            }
+        }
+
+        private void dtpStarted_Enter(object sender, EventArgs e)
+        {
+            SendKeys.Send("{Right}{Right}{Right}");
+        }
+
+        private void dtpStopped_Enter(object sender, EventArgs e)
+        {
+            SendKeys.Send("{Right}{Right}{Right}");
+        }
+
+        private void myTimer_Tick(object sender, EventArgs e)
+        {
+            if (viewOnly == true)
+            {
+                Refresh_Jobs_Grid();
+            }
+            else
+            {
+                Add_Multicoat_Batch(true);
+
+
+                Refresh_Jobs_Grid();
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            pnlParts.Visible = false;
+        }
+
+        private void dgParts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (e.ColumnIndex == 3)
+                {
+                    if (dgParts.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "<View Part>")
+                    {
+                        frmPartView showPicture = new frmPartView();
+                        showPicture.Text = "Part Code : " + dgParts.CurrentRow.Cells["PartCode"].Value.ToString() + " Description : " + dgParts.CurrentRow.Cells["PartDescription"].Value.ToString();
+                        showPicture.myVPSConnection = myJOBData.myVPSConnection;
+                        showPicture.myPartCode = dgParts.CurrentRow.Cells["PartCode"].Value.ToString();
+                        showPicture.Show(this);
+                    }
+                    else
+                    {
+                        MessageBox.Show("** Operator **\r\n\r\nNo Picture available for this Part !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
         }
     }

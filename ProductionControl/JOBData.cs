@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionControl
 {
-    class JOBData
+    public class JOBData
     {
         // Data Base Connection
         public System.Data.SqlClient.SqlConnection myVPSConnection { get; set; }

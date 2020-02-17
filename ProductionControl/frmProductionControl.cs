@@ -72,9 +72,9 @@ namespace ProductionControl
             SQLServer = "LAPTOP-GFF0PAR9\\SQLEXPRESS";
             SQLUserName = "sa";
             SQLPassword = "s3(r3!";
-            SQLServer = "VKC-SQL-01";
-            SQLUserName = "vpsuser";
-            SQLPassword = "vpsuser";
+            //SQLServer = "VKC-SQL-01";
+            //SQLUserName = "vpsuser";
+            //SQLPassword = "vpsuser";
 
             try
             {

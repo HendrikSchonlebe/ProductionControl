@@ -105,6 +105,12 @@
     <Compile Include="frmAddJobToBatch.Designer.cs">
       <DependentUpon>frmAddJobToBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLabelItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLabelItems.Designer.cs">
+      <DependentUpon>frmLabelItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLabelPrint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +155,9 @@
     <Compile Include="WOData.cs" />
     <EmbeddedResource Include="frmAddJobToBatch.resx">
       <DependentUpon>frmAddJobToBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLabelItems.resx">
+      <DependentUpon>frmLabelItems.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLabelPrint.resx">
       <DependentUpon>frmLabelPrint.cs</DependentUpon>

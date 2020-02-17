@@ -851,12 +851,14 @@ namespace ProductionControl
             {
                 String[] thisCustomer = dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Split('-');
                 frmLabelPrint PrintLabels = new frmLabelPrint();
+                PrintLabels.myJobData = myJOBData;
                 PrintLabels.customerName = thisCustomer[0].Trim();
                 PrintLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
                 PrintLabels.jobNumber = dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
                 PrintLabels.colourName = dgJobs.CurrentRow.Cells["Product"].Value.ToString() + " " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
                 PrintLabels.customerOrder = myJOBData.CustomerOrder;
                 PrintLabels.labelPrinterName = labelPrinterName;
+                PrintLabels.productionLineId = productionLineId;
                 PrintLabels.ShowDialog();
                 pnlTasks.Visible = false;
             }

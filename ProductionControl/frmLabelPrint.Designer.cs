@@ -37,6 +37,7 @@
             this.txtJobDetails = new System.Windows.Forms.TextBox();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnItems = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nupdnCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,11 +116,11 @@
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPrint.BackColor = System.Drawing.Color.PaleGreen;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(18, 285);
+            this.btnPrint.Location = new System.Drawing.Point(135, 285);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(111, 56);
             this.btnPrint.TabIndex = 7;
-            this.btnPrint.Text = "F1-Print";
+            this.btnPrint.Text = "F2-Print";
             this.btnPrint.UseVisualStyleBackColor = false;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
@@ -136,11 +137,25 @@
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnItems
+            // 
+            this.btnItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnItems.BackColor = System.Drawing.Color.AliceBlue;
+            this.btnItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnItems.Location = new System.Drawing.Point(18, 285);
+            this.btnItems.Name = "btnItems";
+            this.btnItems.Size = new System.Drawing.Size(111, 56);
+            this.btnItems.TabIndex = 9;
+            this.btnItems.Text = "F1-Items";
+            this.btnItems.UseVisualStyleBackColor = false;
+            this.btnItems.Click += new System.EventHandler(this.btnItems_Click);
+            // 
             // frmLabelPrint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 353);
+            this.Controls.Add(this.btnItems);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.txtJobDetails);
@@ -174,5 +189,6 @@
         private System.Windows.Forms.TextBox txtJobDetails;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnItems;
     }
 }

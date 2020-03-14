@@ -538,6 +538,7 @@ namespace ProductionControl
                             myJOBData.myJobsInProgress.Rows[i]["JobNumber"].ToString(),
                             myCustomerName,
                             myJOBData.myJobsInProgress.Rows[i]["WorkOrderNo"].ToString(),
+                            myJOBData.myJobsInProgress.Rows[i]["CustomerRef"].ToString(),
                             PaintProduct,
                             ColourName,
                             myJOBData.myJobsInProgress.Rows[i]["PaintSystemCode"].ToString() + multiCoat,
@@ -849,18 +850,37 @@ namespace ProductionControl
         {
             if (myJOBData.Get_Job(dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString(), productionLineId) == true)
             {
-                String[] thisCustomer = dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Split('-');
-                frmLabelPrint PrintLabels = new frmLabelPrint();
-                PrintLabels.myJobData = myJOBData;
-                PrintLabels.customerName = thisCustomer[0].Trim();
-                PrintLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
-                PrintLabels.jobNumber = dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
-                PrintLabels.colourName = dgJobs.CurrentRow.Cells["Product"].Value.ToString() + " " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
-                PrintLabels.customerOrder = myJOBData.CustomerOrder;
-                PrintLabels.labelPrinterName = labelPrinterName;
-                PrintLabels.productionLineId = productionLineId;
-                PrintLabels.ShowDialog();
+                String currentCustomer = dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Trim();
+
+                if (dgJobs.CurrentRow.Cells["Customer"].Value.ToString().ToUpper().Contains("CASH SALE") == true)
+                {
+                    String[] thisCustomer = dgJobs.CurrentRow.Cells["Customer"].Value.ToString().Split('-');
+                    currentCustomer = thisCustomer[0].Trim();
+                }
+
+                frmLabelSelect PackingLabels = new frmLabelSelect();
+                PackingLabels.myJobData = myJOBData;
+                PackingLabels.customerName = currentCustomer;
+                PackingLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
+                PackingLabels.jobNumber= dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
+                PackingLabels.colourName = dgJobs.CurrentRow.Cells["Product"].Value.ToString() + " " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
+                PackingLabels.customerOrder = myJOBData.CustomerOrder;
+                PackingLabels.labelPrinterName = labelPrinterName;
+                PackingLabels.productionLineId = productionLineId;
+                PackingLabels.ShowDialog();
                 pnlTasks.Visible = false;
+
+                //frmLabelPrint PrintLabels = new frmLabelPrint();
+                //PrintLabels.myJobData = myJOBData;
+                //PrintLabels.customerName = currentCustomer;
+                //PrintLabels.orderNumber = dgJobs.CurrentRow.Cells["WorkOrder"].Value.ToString();
+                //PrintLabels.jobNumber = dgJobs.CurrentRow.Cells["ProgressJobNumber"].Value.ToString();
+                //PrintLabels.colourName = dgJobs.CurrentRow.Cells["Product"].Value.ToString() + " " + dgJobs.CurrentRow.Cells["ColourName"].Value.ToString();
+                //PrintLabels.customerOrder = myJOBData.CustomerOrder;
+                //PrintLabels.labelPrinterName = labelPrinterName;
+                //PrintLabels.productionLineId = productionLineId;
+                //PrintLabels.ShowDialog();
+                //pnlTasks.Visible = false;
             }
             else
             {

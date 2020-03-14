@@ -29,47 +29,30 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProductionLine));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblProductionLine = new System.Windows.Forms.Label();
             this.dgJobs = new System.Windows.Forms.DataGridView();
-            this.ProgressId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ScheduledDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProgressJobNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColourName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PaintSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Area = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProgressLoadStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FinishLoading = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StartUnloading = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EndUnloading = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Packed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Coats = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThisCoat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
@@ -97,6 +80,25 @@
             this.PartDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PartQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PartPicture = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProgressId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ScheduledDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProgressJobNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomerRef = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColourName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PaintSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Area = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProgressLoadStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FinishLoading = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartUnloading = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EndUnloading = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Packed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Coats = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThisCoat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgJobs)).BeginInit();
             this.pnlTasks.SuspendLayout();
             this.pnlParts.SuspendLayout();
@@ -119,19 +121,19 @@
             // 
             this.dgJobs.AllowUserToAddRows = false;
             this.dgJobs.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.PowderBlue;
-            this.dgJobs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.PowderBlue;
+            this.dgJobs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle22.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProgressId,
@@ -139,6 +141,7 @@
             this.ProgressJobNumber,
             this.Customer,
             this.WorkOrder,
+            this.CustomerRef,
             this.Product,
             this.ColourName,
             this.PaintSystem,
@@ -152,7 +155,7 @@
             this.Packed,
             this.Coats,
             this.ThisCoat});
-            this.dgJobs.Location = new System.Drawing.Point(12, 118);
+            this.dgJobs.Location = new System.Drawing.Point(24, 118);
             this.dgJobs.MultiSelect = false;
             this.dgJobs.Name = "dgJobs";
             this.dgJobs.ReadOnly = true;
@@ -166,198 +169,6 @@
             this.dgJobs.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgJobs_CellPainting);
             this.dgJobs.SelectionChanged += new System.EventHandler(this.dgJobs_SelectionChanged);
             this.dgJobs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgJobs_KeyDown);
-            // 
-            // ProgressId
-            // 
-            this.ProgressId.HeaderText = "Progress Id";
-            this.ProgressId.Name = "ProgressId";
-            this.ProgressId.ReadOnly = true;
-            this.ProgressId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ProgressId.Visible = false;
-            // 
-            // ScheduledDate
-            // 
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle23.Format = "d";
-            dataGridViewCellStyle23.NullValue = null;
-            this.ScheduledDate.DefaultCellStyle = dataGridViewCellStyle23;
-            this.ScheduledDate.HeaderText = "Date";
-            this.ScheduledDate.MinimumWidth = 80;
-            this.ScheduledDate.Name = "ScheduledDate";
-            this.ScheduledDate.ReadOnly = true;
-            this.ScheduledDate.Width = 80;
-            // 
-            // ProgressJobNumber
-            // 
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProgressJobNumber.DefaultCellStyle = dataGridViewCellStyle24;
-            this.ProgressJobNumber.HeaderText = "Job Number";
-            this.ProgressJobNumber.MinimumWidth = 80;
-            this.ProgressJobNumber.Name = "ProgressJobNumber";
-            this.ProgressJobNumber.ReadOnly = true;
-            this.ProgressJobNumber.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ProgressJobNumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ProgressJobNumber.Width = 80;
-            // 
-            // Customer
-            // 
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Customer.DefaultCellStyle = dataGridViewCellStyle25;
-            this.Customer.HeaderText = "Customer Name";
-            this.Customer.MinimumWidth = 250;
-            this.Customer.Name = "Customer";
-            this.Customer.ReadOnly = true;
-            this.Customer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Customer.Width = 250;
-            // 
-            // WorkOrder
-            // 
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WorkOrder.DefaultCellStyle = dataGridViewCellStyle26;
-            this.WorkOrder.HeaderText = "Work Order #";
-            this.WorkOrder.MinimumWidth = 90;
-            this.WorkOrder.Name = "WorkOrder";
-            this.WorkOrder.ReadOnly = true;
-            this.WorkOrder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.WorkOrder.Width = 90;
-            // 
-            // Product
-            // 
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Product.DefaultCellStyle = dataGridViewCellStyle27;
-            this.Product.HeaderText = "Paint Product";
-            this.Product.MinimumWidth = 130;
-            this.Product.Name = "Product";
-            this.Product.ReadOnly = true;
-            this.Product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Product.Width = 130;
-            // 
-            // ColourName
-            // 
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ColourName.DefaultCellStyle = dataGridViewCellStyle28;
-            this.ColourName.HeaderText = "Colour Name";
-            this.ColourName.MinimumWidth = 250;
-            this.ColourName.Name = "ColourName";
-            this.ColourName.ReadOnly = true;
-            this.ColourName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColourName.Width = 250;
-            // 
-            // PaintSystem
-            // 
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PaintSystem.DefaultCellStyle = dataGridViewCellStyle29;
-            this.PaintSystem.HeaderText = "Paint System";
-            this.PaintSystem.MinimumWidth = 80;
-            this.PaintSystem.Name = "PaintSystem";
-            this.PaintSystem.ReadOnly = true;
-            this.PaintSystem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PaintSystem.Width = 80;
-            // 
-            // AP
-            // 
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle30.Format = "N3";
-            dataGridViewCellStyle30.NullValue = null;
-            this.AP.DefaultCellStyle = dataGridViewCellStyle30;
-            this.AP.HeaderText = "AP (m2)";
-            this.AP.MinimumWidth = 70;
-            this.AP.Name = "AP";
-            this.AP.ReadOnly = true;
-            this.AP.Width = 70;
-            // 
-            // Area
-            // 
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle31.Format = "N3";
-            dataGridViewCellStyle31.NullValue = null;
-            this.Area.DefaultCellStyle = dataGridViewCellStyle31;
-            this.Area.HeaderText = "CP (m2)";
-            this.Area.MinimumWidth = 70;
-            this.Area.Name = "Area";
-            this.Area.ReadOnly = true;
-            this.Area.Width = 70;
-            // 
-            // Time
-            // 
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle32.Format = "N0";
-            dataGridViewCellStyle32.NullValue = null;
-            this.Time.DefaultCellStyle = dataGridViewCellStyle32;
-            this.Time.HeaderText = "Est. Time";
-            this.Time.MinimumWidth = 50;
-            this.Time.Name = "Time";
-            this.Time.ReadOnly = true;
-            this.Time.Width = 50;
-            // 
-            // ProgressLoadStart
-            // 
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProgressLoadStart.DefaultCellStyle = dataGridViewCellStyle33;
-            this.ProgressLoadStart.HeaderText = "Start Loading";
-            this.ProgressLoadStart.MinimumWidth = 150;
-            this.ProgressLoadStart.Name = "ProgressLoadStart";
-            this.ProgressLoadStart.ReadOnly = true;
-            this.ProgressLoadStart.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ProgressLoadStart.Width = 150;
-            // 
-            // FinishLoading
-            // 
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FinishLoading.DefaultCellStyle = dataGridViewCellStyle34;
-            this.FinishLoading.HeaderText = "Finish Loading";
-            this.FinishLoading.MinimumWidth = 150;
-            this.FinishLoading.Name = "FinishLoading";
-            this.FinishLoading.ReadOnly = true;
-            this.FinishLoading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.FinishLoading.Width = 150;
-            // 
-            // StartUnloading
-            // 
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartUnloading.DefaultCellStyle = dataGridViewCellStyle35;
-            this.StartUnloading.HeaderText = "Start Unloading";
-            this.StartUnloading.MinimumWidth = 150;
-            this.StartUnloading.Name = "StartUnloading";
-            this.StartUnloading.ReadOnly = true;
-            this.StartUnloading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.StartUnloading.Width = 150;
-            // 
-            // EndUnloading
-            // 
-            dataGridViewCellStyle36.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EndUnloading.DefaultCellStyle = dataGridViewCellStyle36;
-            this.EndUnloading.HeaderText = "Finish Unloading";
-            this.EndUnloading.MinimumWidth = 150;
-            this.EndUnloading.Name = "EndUnloading";
-            this.EndUnloading.ReadOnly = true;
-            this.EndUnloading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EndUnloading.Width = 150;
-            // 
-            // Packed
-            // 
-            this.Packed.HeaderText = "Packed";
-            this.Packed.MinimumWidth = 70;
-            this.Packed.Name = "Packed";
-            this.Packed.ReadOnly = true;
-            this.Packed.Width = 70;
-            // 
-            // Coats
-            // 
-            this.Coats.HeaderText = "Coats";
-            this.Coats.Name = "Coats";
-            this.Coats.ReadOnly = true;
-            this.Coats.Visible = false;
-            // 
-            // ThisCoat
-            // 
-            this.ThisCoat.HeaderText = "This Coat";
-            this.ThisCoat.Name = "ThisCoat";
-            this.ThisCoat.ReadOnly = true;
-            this.ThisCoat.Visible = false;
             // 
             // btnLoad
             // 
@@ -622,28 +433,28 @@
             // 
             this.dgParts.AllowUserToAddRows = false;
             this.dgParts.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgParts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgParts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dgParts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgParts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PartCode,
             this.PartDescription,
             this.PartQty,
             this.PartPicture});
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgParts.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgParts.DefaultCellStyle = dataGridViewCellStyle21;
             this.dgParts.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgParts.Location = new System.Drawing.Point(0, 0);
             this.dgParts.Name = "dgParts";
@@ -665,19 +476,219 @@
             // 
             // PartQty
             // 
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle38.Format = "N0";
-            dataGridViewCellStyle38.NullValue = null;
-            this.PartQty.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "N0";
+            dataGridViewCellStyle19.NullValue = null;
+            this.PartQty.DefaultCellStyle = dataGridViewCellStyle19;
             this.PartQty.HeaderText = "Quantity";
             this.PartQty.Name = "PartQty";
             // 
             // PartPicture
             // 
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PartPicture.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PartPicture.DefaultCellStyle = dataGridViewCellStyle20;
             this.PartPicture.HeaderText = "Picture";
             this.PartPicture.Name = "PartPicture";
+            // 
+            // ProgressId
+            // 
+            this.ProgressId.HeaderText = "Progress Id";
+            this.ProgressId.Name = "ProgressId";
+            this.ProgressId.ReadOnly = true;
+            this.ProgressId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ProgressId.Visible = false;
+            // 
+            // ScheduledDate
+            // 
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.ScheduledDate.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ScheduledDate.HeaderText = "Date";
+            this.ScheduledDate.MinimumWidth = 80;
+            this.ScheduledDate.Name = "ScheduledDate";
+            this.ScheduledDate.ReadOnly = true;
+            this.ScheduledDate.Width = 80;
+            // 
+            // ProgressJobNumber
+            // 
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProgressJobNumber.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ProgressJobNumber.HeaderText = "Job Number";
+            this.ProgressJobNumber.MinimumWidth = 75;
+            this.ProgressJobNumber.Name = "ProgressJobNumber";
+            this.ProgressJobNumber.ReadOnly = true;
+            this.ProgressJobNumber.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ProgressJobNumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ProgressJobNumber.Width = 75;
+            // 
+            // Customer
+            // 
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Customer.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Customer.HeaderText = "Customer Name";
+            this.Customer.MinimumWidth = 240;
+            this.Customer.Name = "Customer";
+            this.Customer.ReadOnly = true;
+            this.Customer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Customer.Width = 240;
+            // 
+            // WorkOrder
+            // 
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WorkOrder.DefaultCellStyle = dataGridViewCellStyle6;
+            this.WorkOrder.HeaderText = "Work Order #";
+            this.WorkOrder.MinimumWidth = 85;
+            this.WorkOrder.Name = "WorkOrder";
+            this.WorkOrder.ReadOnly = true;
+            this.WorkOrder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.WorkOrder.Width = 85;
+            // 
+            // CustomerRef
+            // 
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CustomerRef.DefaultCellStyle = dataGridViewCellStyle7;
+            this.CustomerRef.HeaderText = "Cust. Order #";
+            this.CustomerRef.Name = "CustomerRef";
+            this.CustomerRef.ReadOnly = true;
+            // 
+            // Product
+            // 
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Product.DefaultCellStyle = dataGridViewCellStyle8;
+            this.Product.HeaderText = "Paint Product";
+            this.Product.MinimumWidth = 125;
+            this.Product.Name = "Product";
+            this.Product.ReadOnly = true;
+            this.Product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Product.Width = 125;
+            // 
+            // ColourName
+            // 
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ColourName.DefaultCellStyle = dataGridViewCellStyle9;
+            this.ColourName.HeaderText = "Colour Name";
+            this.ColourName.MinimumWidth = 240;
+            this.ColourName.Name = "ColourName";
+            this.ColourName.ReadOnly = true;
+            this.ColourName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColourName.Width = 240;
+            // 
+            // PaintSystem
+            // 
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PaintSystem.DefaultCellStyle = dataGridViewCellStyle10;
+            this.PaintSystem.HeaderText = "Paint System";
+            this.PaintSystem.MinimumWidth = 80;
+            this.PaintSystem.Name = "PaintSystem";
+            this.PaintSystem.ReadOnly = true;
+            this.PaintSystem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PaintSystem.Width = 80;
+            // 
+            // AP
+            // 
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.Format = "N3";
+            dataGridViewCellStyle11.NullValue = null;
+            this.AP.DefaultCellStyle = dataGridViewCellStyle11;
+            this.AP.HeaderText = "AP (m2)";
+            this.AP.MinimumWidth = 70;
+            this.AP.Name = "AP";
+            this.AP.ReadOnly = true;
+            this.AP.Width = 70;
+            // 
+            // Area
+            // 
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.Format = "N3";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Area.DefaultCellStyle = dataGridViewCellStyle12;
+            this.Area.HeaderText = "CP (m2)";
+            this.Area.MinimumWidth = 70;
+            this.Area.Name = "Area";
+            this.Area.ReadOnly = true;
+            this.Area.Width = 70;
+            // 
+            // Time
+            // 
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.Format = "N0";
+            dataGridViewCellStyle13.NullValue = null;
+            this.Time.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Time.HeaderText = "Est. Time";
+            this.Time.MinimumWidth = 45;
+            this.Time.Name = "Time";
+            this.Time.ReadOnly = true;
+            this.Time.Width = 45;
+            // 
+            // ProgressLoadStart
+            // 
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProgressLoadStart.DefaultCellStyle = dataGridViewCellStyle14;
+            this.ProgressLoadStart.HeaderText = "Start Loading";
+            this.ProgressLoadStart.MinimumWidth = 145;
+            this.ProgressLoadStart.Name = "ProgressLoadStart";
+            this.ProgressLoadStart.ReadOnly = true;
+            this.ProgressLoadStart.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ProgressLoadStart.Width = 145;
+            // 
+            // FinishLoading
+            // 
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FinishLoading.DefaultCellStyle = dataGridViewCellStyle15;
+            this.FinishLoading.HeaderText = "Finish Loading";
+            this.FinishLoading.MinimumWidth = 145;
+            this.FinishLoading.Name = "FinishLoading";
+            this.FinishLoading.ReadOnly = true;
+            this.FinishLoading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.FinishLoading.Width = 145;
+            // 
+            // StartUnloading
+            // 
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StartUnloading.DefaultCellStyle = dataGridViewCellStyle16;
+            this.StartUnloading.HeaderText = "Start Unloading";
+            this.StartUnloading.MinimumWidth = 145;
+            this.StartUnloading.Name = "StartUnloading";
+            this.StartUnloading.ReadOnly = true;
+            this.StartUnloading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.StartUnloading.Width = 145;
+            // 
+            // EndUnloading
+            // 
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EndUnloading.DefaultCellStyle = dataGridViewCellStyle17;
+            this.EndUnloading.HeaderText = "Finish Unloading";
+            this.EndUnloading.MinimumWidth = 145;
+            this.EndUnloading.Name = "EndUnloading";
+            this.EndUnloading.ReadOnly = true;
+            this.EndUnloading.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EndUnloading.Width = 145;
+            // 
+            // Packed
+            // 
+            this.Packed.HeaderText = "Packed";
+            this.Packed.MinimumWidth = 60;
+            this.Packed.Name = "Packed";
+            this.Packed.ReadOnly = true;
+            this.Packed.Width = 60;
+            // 
+            // Coats
+            // 
+            this.Coats.HeaderText = "Coats";
+            this.Coats.Name = "Coats";
+            this.Coats.ReadOnly = true;
+            this.Coats.Visible = false;
+            // 
+            // ThisCoat
+            // 
+            this.ThisCoat.HeaderText = "This Coat";
+            this.ThisCoat.Name = "ThisCoat";
+            this.ThisCoat.ReadOnly = true;
+            this.ThisCoat.Visible = false;
             // 
             // frmProductionLine
             // 
@@ -752,6 +763,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ProgressJobNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Customer;
         private System.Windows.Forms.DataGridViewTextBoxColumn WorkOrder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomerRef;
         private System.Windows.Forms.DataGridViewTextBoxColumn Product;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColourName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PaintSystem;

@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>45</ApplicationRevision>
+    <ApplicationRevision>59</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -117,6 +117,12 @@
     <Compile Include="frmLabelPrint.Designer.cs">
       <DependentUpon>frmLabelPrint.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLabelSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLabelSelect.Designer.cs">
+      <DependentUpon>frmLabelSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPartView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLabelPrint.resx">
       <DependentUpon>frmLabelPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLabelSelect.resx">
+      <DependentUpon>frmLabelSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPartView.resx">
       <DependentUpon>frmPartView.cs</DependentUpon>

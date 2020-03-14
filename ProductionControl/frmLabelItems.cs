@@ -38,7 +38,7 @@ namespace ProductionControl
                     for (int i = 0; i < myJobData.myJobDetails.Rows.Count; i++)
                     {
                         String[] thisPart = myJobData.myJobDetails.Rows[i]["PartDescription"].ToString().Split('*');
-                        dgParts.Rows.Add(myJobData.myJobDetails.Rows[i]["PartCode"].ToString(), thisPart[0].Trim(), Convert.ToDouble(myJobData.myJobDetails.Rows[i]["Properties_Length"]), Convert.ToInt32(myJobData.myJobDetails.Rows[i]["Qty"]), 0);
+                        dgParts.Rows.Add(myJobData.myJobDetails.Rows[i]["PartCode"].ToString(), thisPart[0].Trim(), Convert.ToDouble(myJobData.myJobDetails.Rows[i]["Properties_Length"]), Convert.ToInt32(myJobData.myJobDetails.Rows[i]["Qty"]), 1, 0);
                     }
                 }
                 else
@@ -66,7 +66,7 @@ namespace ProductionControl
         {
             if (e.RowIndex >= 0)
             {
-                if (e.ColumnIndex == 4)
+                if ((e.ColumnIndex == 4) | (e.ColumnIndex == 5))
                     dgParts.ReadOnly = false;
                 else
                     dgParts.ReadOnly = true;
@@ -76,36 +76,68 @@ namespace ProductionControl
         private void dgParts_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int lineCount = 0;
+            int labelCount = 0;
 
             btnClose.Enabled = true;
 
             if (e.RowIndex >= 0)
             {
-                if (dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "").Length > 0)
+                if (e.ColumnIndex == 4)
                 {
-                    if (Int32.Parse(dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "")) >= 0)
+                    if (dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "").Length > 0)
                     {
-                        if (Convert.ToInt32(dgParts.Rows[e.RowIndex].Cells["PartQty"].Value) < Convert.ToInt32(dgParts.CurrentCell.Value))
+                        if (Int32.Parse(dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "")) <= 0)
                         {
                             btnClose.Enabled = false;
-                            MessageBox.Show("** Operator **\r\n\r\nPacked Quantity exceeds Quantity Processed !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            dgParts.CurrentCell.Value = "0";
+                            MessageBox.Show("** Operator **\r\n\r\nLabel Number must be greater than zero !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            dgParts.CurrentCell.Value = "1";
                             btnClose.Enabled = true;
+                        }
+                    }
+                }
+                else if (e.ColumnIndex == 5)
+                {
+                    if (dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "").Length > 0)
+                    {
+                        if (Int32.Parse(dgParts.CurrentCell.EditedFormattedValue.ToString().Trim().Replace("$", "").Replace(",", "")) >= 0)
+                        {
+                            if (Convert.ToInt32(dgParts.Rows[e.RowIndex].Cells["PartQty"].Value) < Convert.ToInt32(dgParts.CurrentCell.Value))
+                            {
+                                btnClose.Enabled = false;
+                                MessageBox.Show("** Operator **\r\n\r\nPacked Quantity exceeds Quantity Processed !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                dgParts.CurrentCell.Value = "0";
+                                btnClose.Enabled = true;
+                            }
                         }
                     }
                 }
             }
 
+            // Find different number of Labels
             for (int i = 0; i < dgParts.Rows.Count; i++)
             {
-                if (Convert.ToInt32(dgParts.Rows[i].Cells["ThisLabel"].Value) > 0)
-                    lineCount++;
+                if (Convert.ToInt32(dgParts.Rows[i].Cells["LabelNo"].Value) > labelCount)
+                    labelCount++;
             }
 
-            if (lineCount > maxLines)
+            for (int j = 0; j < labelCount; j++)
             {
-                btnClose.Enabled = false;
-                MessageBox.Show("** Operator **\r\n\r\nYou have selected more lines than what the label can print !\r\nMaximium line count for the selected label format is " + maxLines.ToString() + "\r\n", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                lineCount = 0;
+
+                for (int i = 0; i < dgParts.Rows.Count; i++)
+                {
+                    if (Convert.ToInt32(dgParts.Rows[i].Cells["LabelNo"].Value) == (j + 1))
+                    {
+                        if (Convert.ToInt32(dgParts.Rows[i].Cells["ThisLabel"].Value) > 0)
+                            lineCount++;
+                    }
+                }
+
+                if (lineCount > maxLines)
+                {
+                    btnClose.Enabled = false;
+                    MessageBox.Show("** Operator **\r\n\r\nLabel # " + (j + 1).ToString() + "\r\nYou have selected more lines than what the label can hold !\r\nMaximium line count for the selected label format is " + maxLines.ToString() + "\r\n", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
     }

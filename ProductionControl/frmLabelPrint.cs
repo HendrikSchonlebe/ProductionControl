@@ -26,7 +26,7 @@ namespace ProductionControl
         private List<String> partName = new List<String>();
         private List<String> quantity = new List<String>();
         private List<String> lengthIt = new List<String>();
- 
+
         public frmLabelPrint()
         {
             InitializeComponent();
@@ -84,6 +84,12 @@ namespace ProductionControl
                         break;
                     }
                 }
+
+                partName.Clear();
+                quantity.Clear();
+                lengthIt.Clear();
+
+                cmbFormat_SelectedValueChanged(sender, e);
             }
         }
         private void btnExit_Click(object sender, EventArgs e)
@@ -109,52 +115,52 @@ namespace ProductionControl
                 if (cmbFormat.Text.Substring(0, 1) == "1")
                 {
                     myLabel = "N\r\n";
-                    myLabel = myLabel + "A140,320,1,4,1,1,N,\"" + colourName.Trim() + "\"\r\n";
-                    if (partName.Count >= 1)
+                    myLabel = myLabel + "A130,320,1,4,1,1,N,\"" + colourName.Trim() + "\"\r\n";
+                    if (partName.Count >= 6)
                     {
-                        myLabel = myLabel + "A200,50,1,3,1,1,N,\"" + partName[0].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A200,500,1,3,1,1,N,\"" + quantity[0].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A200,900,1,3,1,1,N,\"" + lengthIt[0].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A160,80,1,3,1,1,N,\"" + partName[5].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A160,970,1,3,1,1,N,\"" + quantity[5].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A160,1100,1,3,1,1,N,\"" + lengthIt[5].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A200,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
-                    if (partName.Count >= 2)
+                    if (partName.Count >= 5)
                     {
-                        myLabel = myLabel + "A250,50,1,3,1,1,N,\"" + partName[1].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A250,500,1,3,1,1,N,\"" + quantity[1].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A250,900,1,3,1,1,N,\"" + lengthIt[1].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A210,80,1,3,1,1,N,\"" + partName[4].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A210,970,1,3,1,1,N,\"" + quantity[4].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A210,1100,1,3,1,1,N,\"" + lengthIt[4].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A250,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
-                    if (partName.Count >= 3)
+                    if (partName.Count >= 4)
                     {
-                        myLabel = myLabel + "A300,50,1,3,1,1,N,\"" + partName[2].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A300,500,1,3,1,1,N,\"" + quantity[2].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A300,900,1,3,1,1,N,\"" + lengthIt[2].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A260,80,1,3,1,1,N,\"" + partName[3].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A260,970,1,3,1,1,N,\"" + quantity[3].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A260,1100,1,3,1,1,N,\"" + lengthIt[3].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A300,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
-                    if (partName.Count >= 4)
+                    if (partName.Count >= 3)
                     {
-                        myLabel = myLabel + "A350,50,1,3,1,1,N,\"" + partName[3].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A350,500,1,3,1,1,N,\"" + quantity[3].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A350,900,1,3,1,1,N,\"" + lengthIt[3].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A310,80,1,3,1,1,N,\"" + partName[2].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A310,970,1,3,1,1,N,\"" + quantity[2].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A310,1100,1,3,1,1,N,\"" + lengthIt[2].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A350,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
-                    if (partName.Count >= 5)
+                    if (partName.Count >= 2)
                     {
-                        myLabel = myLabel + "A400,50,1,3,1,1,N,\"" + partName[4].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A400,500,1,3,1,1,N,\"" + quantity[4].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A400,900,1,3,1,1,N,\"" + lengthIt[4].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A360,80,1,3,1,1,N,\"" + partName[1].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A360,970,1,3,1,1,N,\"" + quantity[1].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A360,1100,1,3,1,1,N,\"" + lengthIt[1].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A400,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
-                    if (partName.Count >= 6)
+                    if (partName.Count >= 1)
                     {
-                        myLabel = myLabel + "A450,50,1,3,1,1,N,\"" + partName[5].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A450,500,1,3,1,1,N,\"" + quantity[5].Trim() + "\"\r\n";
-                        myLabel = myLabel + "A450,900,1,3,1,1,N,\"" + lengthIt[5].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A410,80,1,3,1,1,N,\"" + partName[0].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A410,970,1,3,1,1,N,\"" + quantity[0].Trim() + "\"\r\n";
+                        myLabel = myLabel + "A410,1100,1,3,1,1,N,\"" + lengthIt[0].Trim() + "\"\r\n";
                     }
                     else
                         myLabel = myLabel + "A450,50,1,3,1,1,N,\"______________________________________________________________________________\"\r\n";
@@ -281,33 +287,35 @@ namespace ProductionControl
 
         private void btnItems_Click(object sender, EventArgs e)
         {
-            frmLabelItems selectParts = new frmLabelItems();
+            frmLabelSelect selectParts = new frmLabelSelect();
             selectParts.myJobData = myJobData;
-            selectParts.thisJobNumber = jobNumber;
-            selectParts.labelFormat = cmbFormat.Text.Substring(0, 1);
+            // selectParts.thisJobNumber = jobNumber;
+            // selectParts.labelFormat = cmbFormat.Text.Substring(0, 1);
             selectParts.productionLineId = productionLineId;
-            
+
 
             selectParts.ShowDialog();
 
-            partName.Clear();
-            quantity.Clear();
-            lengthIt.Clear();
+            //frmLabelItems selectParts = new frmLabelItems();
 
-            for (int i = 0; i < selectParts.dgParts.Rows.Count; i++)
-            {
-                if (Convert.ToInt32(selectParts.dgParts.Rows[i].Cells["ThisLabel"].Value) > 0)
-                {
-                    partName.Add(selectParts.dgParts.Rows[i].Cells["PartDescription"].Value.ToString());
-                    quantity.Add(Convert.ToInt32(selectParts.dgParts.Rows[i].Cells["ThisLabel"].Value).ToString("N0"));
-                    lengthIt.Add(Convert.ToDouble(selectParts.dgParts.Rows[i].Cells["Length"].Value).ToString("N3"));
-                }
-            }
+            //partName.Clear();
+            //quantity.Clear();
+            //lengthIt.Clear();
 
-            selectParts.Close();
-            selectParts.Dispose();
+            //for (int i = 0; i < selectParts.dgParts.Rows.Count; i++)
+            //{
+            //    if (Convert.ToInt32(selectParts.dgParts.Rows[i].Cells["ThisLabel"].Value) > 0)
+            //    {
+            //        partName.Add(selectParts.dgParts.Rows[i].Cells["PartDescription"].Value.ToString());
+            //        quantity.Add(Convert.ToInt32(selectParts.dgParts.Rows[i].Cells["ThisLabel"].Value).ToString("N0"));
+            //        lengthIt.Add(Convert.ToDouble(selectParts.dgParts.Rows[i].Cells["Length"].Value).ToString("N3"));
+            //    }
+            //}
 
-            cmbFormat_SelectedValueChanged(cmbFormat, e);
+            //selectParts.Close();
+            //selectParts.Dispose();
+
+            //cmbFormat_SelectedValueChanged(cmbFormat, e);
         }
     }
 }

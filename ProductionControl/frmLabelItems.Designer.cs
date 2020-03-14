@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgParts = new System.Windows.Forms.DataGridView();
+            this.btnClose = new System.Windows.Forms.Button();
             this.PartCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PartDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PartQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LabelNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ThisLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgParts)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,15 +63,16 @@
             this.PartDescription,
             this.Length,
             this.PartQty,
+            this.LabelNo,
             this.ThisLabel});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgParts.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgParts.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgParts.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgParts.Location = new System.Drawing.Point(0, 0);
             this.dgParts.Name = "dgParts";
@@ -78,6 +81,17 @@
             this.dgParts.TabIndex = 1;
             this.dgParts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgParts_CellEndEdit);
             this.dgParts.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgParts_CellEnter);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Location = new System.Drawing.Point(0, 414);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(1124, 37);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // PartCode
             // 
@@ -88,10 +102,10 @@
             // PartDescription
             // 
             this.PartDescription.HeaderText = "Description";
-            this.PartDescription.MinimumWidth = 650;
+            this.PartDescription.MinimumWidth = 550;
             this.PartDescription.Name = "PartDescription";
             this.PartDescription.ReadOnly = true;
-            this.PartDescription.Width = 650;
+            this.PartDescription.Width = 550;
             // 
             // Length
             // 
@@ -113,24 +127,23 @@
             this.PartQty.Name = "PartQty";
             this.PartQty.ReadOnly = true;
             // 
+            // LabelNo
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.LabelNo.DefaultCellStyle = dataGridViewCellStyle4;
+            this.LabelNo.HeaderText = "Label #";
+            this.LabelNo.Name = "LabelNo";
+            this.LabelNo.ReadOnly = true;
+            // 
             // ThisLabel
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ThisLabel.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ThisLabel.HeaderText = "This Set of Labels";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ThisLabel.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ThisLabel.HeaderText = "This Label";
             this.ThisLabel.Name = "ThisLabel";
             this.ThisLabel.ReadOnly = true;
-            // 
-            // btnClose
-            // 
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(0, 414);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(1124, 37);
-            this.btnClose.TabIndex = 2;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // frmLabelItems
             // 
@@ -151,11 +164,12 @@
 
         #endregion
         public System.Windows.Forms.DataGridView dgParts;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.DataGridViewTextBoxColumn PartCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn PartDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn Length;
         private System.Windows.Forms.DataGridViewTextBoxColumn PartQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LabelNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ThisLabel;
-        private System.Windows.Forms.Button btnClose;
     }
 }

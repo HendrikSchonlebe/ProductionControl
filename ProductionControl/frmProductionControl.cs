@@ -16,6 +16,7 @@ namespace ProductionControl
         private String ErrorMessage = string.Empty;
         private Int32 productionLineId = 0;
         private Boolean viewOnly = true;
+        private Boolean supervisorMode = false;
         private String labelPrinterName = string.Empty;
 
         public frmProductionControl()
@@ -44,6 +45,7 @@ namespace ProductionControl
                 myProductionLine.VPSConnection = VPSConnection;
                 myProductionLine.productionLineId = productionLineId;
                 myProductionLine.viewOnly = viewOnly;
+                myProductionLine.supervisorMode = supervisorMode;
                 myProductionLine.labelPrinterName = labelPrinterName;
                 myProductionLine.ShowDialog();
                 this.Close();
@@ -72,9 +74,9 @@ namespace ProductionControl
             SQLServer = "LAPTOP-GFF0PAR9\\SQLEXPRESS";
             SQLUserName = "sa";
             SQLPassword = "s3(r3!";
-            SQLServer = "VKC-SQL-01";
-            SQLUserName = "vpsuser";
-            SQLPassword = "vpsuser";
+            //SQLServer = "VKC-SQL-01";
+            //SQLUserName = "vpsuser";
+            //SQLPassword = "vpsuser";
 
             try
             {
@@ -104,8 +106,10 @@ namespace ProductionControl
                 {
                     if (myParams[1].Trim() == "P")
                         viewOnly = false;
+                    else if (myParams[1].Trim() == "S")
+                        supervisorMode = true;
                 }
-                if (myParams.Length > 2)
+                if ((myParams.Length > 2) & (supervisorMode == false))
                 {
                     labelPrinterName = myParams[2].Trim();
                 }

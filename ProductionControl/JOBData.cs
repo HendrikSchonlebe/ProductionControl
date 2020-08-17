@@ -75,6 +75,67 @@ namespace ProductionControl
 
             return isCompleted;
         }
+        public Boolean Delete_Job_Record(String jobNumber, DateTime timeStamp, System.Data.SqlClient.SqlTransaction trnEnvelope)
+        {
+            Boolean isSuccessful = true;
+            System.Data.DataTable myJob = new System.Data.DataTable();
+
+            ErrorMessage = string.Empty;
+
+            try
+            {
+                String strSQL = "SELECT * FROM Jobs WHERE JobNumber = '" + jobNumber + "'";
+                System.Data.SqlClient.SqlCommand cmdGet = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                System.Data.SqlClient.SqlDataReader rdrGet = cmdGet.ExecuteReader();
+                if (rdrGet.HasRows == true)
+                {
+                    myJob.Load(rdrGet);
+
+                    // Delete Associated Extra Services
+                    strSQL = "DELETE FROM JobExtraServices WHERE JobId = " + Convert.ToInt32(myJob.Rows[0]["JobId"]).ToString();
+                    System.Data.SqlClient.SqlCommand cmdDeleteS = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                    cmdDeleteS.ExecuteNonQuery();
+
+                    // Delete Assoication Parts
+                    strSQL = "DELETE FROM JobDetails WHERE JobId = " + Convert.ToInt32(myJob.Rows[0]["JobId"]).ToString();
+                    System.Data.SqlClient.SqlCommand cmdDeleteP = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                    cmdDeleteP.ExecuteNonQuery();
+
+                    // Delete Job
+                    strSQL = "DELETE FROM Jobs WHERE JobId = " + Convert.ToInt32(myJob.Rows[0]["JobId"]).ToString();
+                    System.Data.SqlClient.SqlCommand cmdDeleteJ = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                    cmdDeleteJ.ExecuteNonQuery();
+
+                    // Update Job Status Table
+                    strSQL = "INSERT INTO JobStatusLog (";
+                    strSQL = strSQL + "JobNumber, ";
+                    strSQL = strSQL + "JobStatus, ";
+                    strSQL = strSQL + "Updated, ";
+                    strSQL = strSQL + "Source) VALUES (";
+                    strSQL = strSQL + "'" + jobNumber + "', ";
+                    strSQL = strSQL + "'Deferred', ";
+                    strSQL = strSQL + "CONVERT(datetime, '" + DateTime.Now.ToString() + "', 103), ";
+                    strSQL = strSQL + "'Factory')";
+                    System.Data.SqlClient.SqlCommand cmdInsert = new System.Data.SqlClient.SqlCommand(strSQL, myVPSConnection, trnEnvelope);
+                    cmdInsert.ExecuteNonQuery();
+                }
+                else
+                {
+                    isSuccessful = false;
+                    ErrorMessage = "Delete Job Record - Job Record Not Found";
+                }
+
+                rdrGet.Close();
+                cmdGet.Dispose();
+            }
+            catch (Exception ex)
+            {
+                isSuccessful = false;
+                ErrorMessage = "Delete Job Record - " + ex.Message;
+            }
+
+            return isSuccessful;
+        }
         public Boolean Update_Job_Status(String jobNumber, String jobStatus, DateTime timeStamp, System.Data.SqlClient.SqlTransaction trnEnvelope)
         {
             Boolean isSuccessful = true;
